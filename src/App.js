@@ -1,6 +1,6 @@
 import Navibar from "./components/Navbar/Navbar";
 import AllPost from "./components/Post/AllPost";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import MyBlogs from "./components/MyBlogs/MyBlogs";
 import Auth from "./components/Login-SignUp/Auth";
 import EditBlog from "./components/NewBlog/EditBlog";
@@ -14,6 +14,7 @@ import DashBoard from "./components/DashBoard/DashBoard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "flowbite-react";
+import NotFound from "./components/404/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,6 +64,8 @@ function App() {
           <Route path="/blog/add" element={<AddBlog />} />
           <Route path="/blog/view/:id" element={<ViewBlog />} />
           <Route path="/user" element={<DashBoard />} />
+          <Route path="*" element={<Navigate to="/404" />} />
+          <Route path="/404" element={<NotFound />} />
         </Routes>
       </div>
     );
