@@ -1,20 +1,30 @@
-import Navibar from "./components/Navbar/Navbar";
-import AllPost from "./components/Post/AllPost";
 import { Routes, Route, Navigate } from "react-router-dom";
-import MyBlogs from "./components/MyBlogs/MyBlogs";
-import Auth from "./components/Login-SignUp/Auth";
-import EditBlog from "./components/NewBlog/EditBlog";
-import AddBlog from "./components/NewBlog/AddBlog";
-import ViewBlog from "./components/Post/ViewBlog";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import axios from "./api";
-import { LogOut } from "./redux/actions/UserAction";
-import DashBoard from "./components/DashBoard/DashBoard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "flowbite-react";
-import NotFound from "./components/404/NotFound";
+import { LogOut } from "./redux/actions/UserAction";
+// import Navibar from "./components/Navbar/Navbar";
+// import AllPost from "./components/Post/AllPost";
+// import MyBlogs from "./components/MyBlogs/MyBlogs";
+// import Auth from "./components/Login-SignUp/Auth";
+// import EditBlog from "./components/NewBlog/EditBlog";
+// import AddBlog from "./components/NewBlog/AddBlog";
+// import ViewBlog from "./components/Post/ViewBlog";
+// import DashBoard from "./components/DashBoard/DashBoard";
+// import NotFound from "./components/404/NotFound";
+
+const Navibar = lazy(() => import("./components/Navbar/Navbar"));
+const AllPost = lazy(() => import("./components/Post/AllPost"));
+const MyBlogs = lazy(() => import("./components/MyBlogs/MyBlogs"));
+const Auth = lazy(() => import("./components/Login-SignUp/Auth"));
+const EditBlog = lazy(() => import("./components/NewBlog/EditBlog"));
+const AddBlog = lazy(() => import("./components/NewBlog/AddBlog"));
+const ViewBlog = lazy(() => import("./components/Post/ViewBlog"));
+const DashBoard = lazy(() => import("./components/DashBoard/DashBoard"));
+const NotFound = lazy(() => import("./components/404/NotFound"));
 
 function App() {
   const dispatch = useDispatch();
@@ -56,17 +66,19 @@ function App() {
       <div className="App">
         <Navibar />
         <ToastContainer />
-        <Routes>
-          <Route path="/" element={<AllPost />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/my-blogs/:userId" element={<MyBlogs />} />
-          <Route path="/blog/edit/:id" element={<EditBlog />} />
-          <Route path="/blog/add" element={<AddBlog />} />
-          <Route path="/blog/view/:id" element={<ViewBlog />} />
-          <Route path="/user" element={<DashBoard />} />
-          <Route path="*" element={<Navigate to="/404" />} />
-          <Route path="/404" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<AllPost />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/my-blogs/:userId" element={<MyBlogs />} />
+            <Route path="/blog/edit/:id" element={<EditBlog />} />
+            <Route path="/blog/add" element={<AddBlog />} />
+            <Route path="/blog/view/:id" element={<ViewBlog />} />
+            <Route path="/user" element={<DashBoard />} />
+            <Route path="*" element={<Navigate to="/404" />} />
+            <Route path="/404" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </div>
     );
 }
